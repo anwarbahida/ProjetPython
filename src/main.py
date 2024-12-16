@@ -46,7 +46,7 @@ class main:
         self.root.configure(background="#0071BC", bd=3, relief=GROOVE)
         
 
-        lbltitre = Label(self.root, text="Pointage des employeurs", bd=3, relief=GROOVE, 
+        lbltitre = Label(self.root, text="Pointage des employés", bd=3, relief=GROOVE, 
                         font=("Consolas", 25), bg='#F7941D', fg='#FFFAFA')
         lbltitre.place(width=1345, height=70)
 
@@ -65,8 +65,8 @@ class main:
         
         buttons_info = [
             ("Tableau de Bord", 0),
-            ("Liste des Employeurs", 62),
-            ("Ajouter un Employeur", 122),
+            ("Liste des Employés", 62),
+            ("Ajouter un Employé", 122),
             ("Liste des Absences", 182),
             ("Liste des Présences",242),
             ("Activer Caméra",302),
