@@ -135,4 +135,3 @@ class main:
     def RapportStatisique(self):
         pass
     
-main()
