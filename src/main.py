@@ -1,8 +1,7 @@
 
 from tkinter import *
-from PIL import Image,ImageTk
 import os
-from Dashbord import Dashbord
+from Dashboard import Dashboard
 from AjouterEmployeur import AjouterEmployer
 from ListeEmployeur import ListeEmployeur
 from ListeAbscence import ListeAbscence
@@ -17,8 +16,10 @@ class main:
         self.interface()
         
     def destroy_frame(self):
+        
         for widget in self.frm3.winfo_children():
             widget.destroy()
+            
         
     def on_enter(self,event):
         event.widget.config(background="#3CB371", fg="black") 
@@ -53,12 +54,12 @@ class main:
         self.frm1 = Frame(self.root,background="green", bd=3, relief=GROOVE)
         self.frm1.place(width=280, height=630, x=0, y=70)
 
-        self.frm2 = Frame(self.root, background="black", bd=3, relief=GROOVE)
+        self.frm2 = Frame(self.root, background="gray", bd=3, relief=GROOVE)
         self.frm2.place(width=1065, height=630, x=280, y=70)
 
         self.frm3 = Frame(self.frm2, bd=3, relief=GROOVE)
         self.frm3.place(width=1059, height=528, x=0, y=94)
-        
+        Dashboard(self.frm3,self.frm2)
 
         # ________________________________________________________Frame 1_______________________________________________________
         
@@ -93,20 +94,7 @@ class main:
             
             self.hover(btn)
         
-        # ___________________________________________________Frame 2___________________________________________________________
         
-        # Effectuer un Rechercher
-        
-        lblRech = Label(self.frm2, text="Effectuer une Recherche : ", font=("Arial", 15), fg='white', bg="black")
-        lblRech.place(x=60, y=30)
-
-        txtRechercher = Entry(self.frm2, bd=3, font=('Arial', 14))
-        txtRechercher.place(x=300, y=30, width=300)
-
-        btnRechercher = Button(self.frm2, bd=3, relief=GROOVE, text="Rechercher",font=("Arial", 15), background="green", fg="white")
-        btnRechercher.place(x=680, y=30, width=370, height=33)
-        
-        self.hover(btnRechercher)
         
         # Exécution
         self.root.mainloop()
@@ -118,35 +106,33 @@ class main:
     
     def TableauBord(self):
         self.destroy_frame()
-        Dashbord(self.frm3)
+        Dashboard(self.frm3,self.frm2)
         
     def ListeEmployeur(self):
         self.destroy_frame()
-        ListeEmployeur(self.frm3)
+        ListeEmployeur(self.frm3,self.frm2)
         
     def AjouterEmployeur(self):
         self.destroy_frame()
-        AjouterEmployer(self.frm3)
+        AjouterEmployer(self.frm3,self.frm2)
         
     def ListeAbsence(self):
         self.destroy_frame()
-        ListeAbscence(self.frm3)
+        ListeAbscence(self.frm3,self.frm2)
         
     def ListePresence(self):
         self.destroy_frame()
-        ListePresence(self.frm3)
+        ListePresence(self.frm3,self.frm2)
         
     def Profil(self):
         self.destroy_frame()
-        Profil(self.frm3)
+        Profil(self.frm3,self.frm2)
     
     def ActiverCamera(self):
         self.destroy_frame()
-        ActiverCamera(self.frm3)
+        ActiverCamera(self.frm3,self.frm2)
         
-    def RapportStatisique():
+    def RapportStatisique(self):
         pass
     
 main()
-        
-    

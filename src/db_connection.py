@@ -1,4 +1,4 @@
-import psycopg2
+import mysql.connector
 from dotenv import load_dotenv
 import os
 
@@ -6,9 +6,8 @@ import os
 load_dotenv()
 
 def get_connection():
-    """Retourne une connexion à la base de données PostgreSQL."""
     try:
-        connection = psycopg2.connect(
+        connection = mysql.connector.connect(
             host=os.getenv("DB_HOST"),
             database=os.getenv("DB_NAME"),
             user=os.getenv("DB_USER"),
@@ -16,6 +15,6 @@ def get_connection():
             port=os.getenv("DB_PORT")
         )
         return connection
-    except psycopg2.DatabaseError as error:
+    except mysql.connector.Error as error:
         print(f"Erreur lors de la connexion à la base de données : {error}")
         return None
