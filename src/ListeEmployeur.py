@@ -35,7 +35,7 @@ class ListeEmployeur:
         self.radio_poste = Radiobutton(self.frm, text="Poste", variable=self.var_critere, value="Poste", font=("Arial", 15), fg='black', bg="#e0e0e0")
         self.radio_poste.place(x=730, y=30)
  
-        btnRechercher = Button(self.frm, bd=3, relief=GROOVE, text="Rechercher",font=("Arial", 15), background="green", fg="black",command=lambda: self.effectuerRecherche(self.var_critere.get(), txtRechercher.get()) )
+        btnRechercher = Button(self.frm, bd=3, relief=GROOVE, text="Rechercher",font=("Arial", 15), background="green", fg="white",command=lambda: self.effectuerRecherche(self.var_critere.get(), txtRechercher.get()) )
         btnRechercher.place(x=850, y=30, width=200, height=33)
         
         self.hoverGreen(btnRechercher)
