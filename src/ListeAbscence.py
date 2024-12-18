@@ -5,7 +5,7 @@ class ListeAbscence:
     def __init__(self,frm,frm1):
         self.frm=frm
         self.frm1=frm1
-        titre=Label(self.frm1,text="Liste Abscenec",bg="gray",fg='white',font=("Consolas", 20))
+        titre=Label(self.frm1,text="Liste Abscence",bg="gray",fg='white',font=("Consolas", 20))
         titre.place(x=400,y=30)
         
         btn = Button(self.frm,text="Liste des Abscences",command=self.test)

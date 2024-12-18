@@ -6,6 +6,7 @@ class Dashboard:
     def __init__(self, frm,frm1):
         self.frm = frm
         self.frm1 = frm1
+        self.frm['bg']='white'
         
         titre=Label(self.frm1,text="Tableau de Borde",bg="gray",fg='white',font=("Consolas", 20))
         titre.place(x=400,y=30)
@@ -30,9 +31,9 @@ class Dashboard:
         
         """Récupère le nombre d'employeurs depuis la base de données et l'affiche"""
         employeur_count = self.get_employeur_count()  # Appel à la fonction pour obtenir le nombre d'employeurs
-        count_label = Label(self.frm, text="Employes", font=("consolas", 15))
+        count_label = Label(self.frm, text="Employes",bg='White', font=("consolas", 15))
         count_label.place(x=480,y=10)
-        count_label = Label(self.frm, text=f" {employeur_count}", font=("Arial", 14))
+        count_label = Label(self.frm, text=f" {employeur_count}",bg='White', font=("Arial", 14))
         count_label.place(x=510,y=160)
 
     def get_employeur_count(self):

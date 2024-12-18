@@ -42,8 +42,8 @@ class Login:
         bgiconnamePhoto = ImageTk.PhotoImage(bgiconnameimg)
         Label(self.root, image=bgiconnamePhoto, bd=3, relief=GROOVE).place(x=632, y=230, width=30, height=30)
 
-        Label(self.root, text="Societe :", font=("Times New Roman", 15), background="#0071BC", fg='#FFFAFA').place(x=666, y=180, width=150)
-        txtnomUtilisateur = Entry(self.root, bd=3, relief=GROOVE, font=('Consolas', 15))
+        Label(self.root, text="Societe :", font=("Times New Roman", 18), background="#0071BC", fg='#FFFAFA').place(x=666, y=180, width=150)
+        txtnomUtilisateur = Entry(self.root, bd=3, relief=GROOVE, font=('Consolas', 16))
         txtnomUtilisateur.place(x=660, y=230, width=200, height=30)
 
         image_path = 'images/password.jpg'
@@ -68,8 +68,8 @@ class Login:
                 eye_button.config(image=eye_closed)  # Change l'icône à l'œil fermé
 
         # Label et champ de texte pour le mot de passe
-        Label(self.root, text="Password :", font=("Times New Roman", 15), background="#0071BC", fg="white").place(x=666, y=280, width=150)
-        txtmdp = Entry(self.root, show='*', bd=3, relief=GROOVE, font=('Consolas', 15))
+        Label(self.root, text="Password :", font=("Times New Roman", 18), background="#0071BC", fg="white").place(x=666, y=280, width=150)
+        txtmdp = Entry(self.root, show='*', bd=3, relief=GROOVE, font=('Consolas', 16))
         txtmdp.place(x=660, y=330, width=200, height=30)
 
         # Utilisation du module os pour obtenir les chemins absolus des images
@@ -182,6 +182,8 @@ class Login:
                         
                     else:
                         messagebox.showerror("Erreur", "Cet email n'est pas enregistré dans notre système.")
+                        
+                        
                 else:
                     messagebox.showerror("Erreur", "Veuillez entrer un email valide.")
 

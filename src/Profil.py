@@ -43,7 +43,7 @@ class Profil:
             lbl_key.place(x=200, y=y_offset)
 
             lbl_value = Label(self.frm, text=value, font=("Arial", 14, "bold"), bg="white", fg="#0071BC", anchor="w")
-            lbl_value.place(x=660, y=y_offset)
+            lbl_value.place(x=600, y=y_offset)
 
             y_offset += 40
 
@@ -75,7 +75,7 @@ class Profil:
             # Champ de saisie pour la valeur (modification)
             entry_value = Entry(self.frm, font=("Arial", 14), bg="#F0F0F0", fg="black")
             entry_value.insert(0, value)
-            entry_value.place(x=660, y=y_offset, width=300, height=30)
+            entry_value.place(x=600, y=y_offset, width=300, height=30)
 
             # Stocker chaque champ dans un dictionnaire pour l'accès ultérieur
             self.entries[key] = entry_value
