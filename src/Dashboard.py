@@ -17,7 +17,7 @@ class Dashboard:
 
     def display_image(self):
         """Affiche l'image Employeur.png dans la fenêtre"""
-        image = Image.open("images/Employeur.png")  # Charger l'image
+        image = Image.open("C:\\Users\\ADDICHANE\\OneDrive\\Documents\\Projet_Python\\ProjetPython\\images\\Employeur.png")  # Charger l'image
         image = image.resize((100, 100))  # Redimensionner l'image
         photo = ImageTk.PhotoImage(image)  # Convertir l'image en un format compatible avec Tkinter
 

@@ -144,6 +144,7 @@ class AjouterEmployer:
                 cursor.execute(insert_query, values)
                 connection.commit()
                 messagebox.showinfo("Succès", "Employé ajouté avec succès!")
+                
 
                 # Réinitialiser les champs après ajout
                 self.nom.delete(0, tkinter.END)

@@ -42,15 +42,15 @@ class ListeEmployeur:
         
         
         
-        btn_afficher = Button(self.frm, text="Afficher les Employeurs",font=("Arial", 15),bd=4,relief="groove", background="green", fg="white", command=self.afficher_employeurs)
+        btn_afficher = Button(self.frm, text="Afficher les Employés",font=("Arial", 15),bd=4,relief="groove", background="green", fg="white", command=self.afficher_employeurs)
         btn_afficher.place(x=90,y=120)
         self.hoverGreen(btn_afficher)
         
-        btn_supprimer = Button(frm, text="Supprimer l'Employeur",font=("Arial", 15),bd=4,relief="groove", background="red", fg="white", command=self.supprimer_employe)
+        btn_supprimer = Button(frm, text="Supprimer l'Employé",font=("Arial", 15),bd=4,relief="groove", background="red", fg="white", command=self.supprimer_employe)
         btn_supprimer.place(x=430,y=120)
         self.hoverRed(btn_supprimer)
         
-        btn_modifier = Button(frm, text="Modifier l'Employeur",font=("Arial", 15),bd=4,relief="groove", background="#0A82A0", fg="white", command=self.modifier_employe)
+        btn_modifier = Button(frm, text="Modifier l'Employés",font=("Arial", 15),bd=4,relief="groove", background="#0A82A0", fg="white", command=self.modifier_employe)
         btn_modifier.place(x=750,y=120)
         self.hoverBlue(btn_modifier)
         

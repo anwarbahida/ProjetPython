@@ -23,7 +23,7 @@ class Login:
         self.root.resizable(False, False)
         self.root.configure(background="#0071BC", bd=3, relief=GROOVE)
 
-        bgiconUserimg = Image.open("images/Logo.png")
+        bgiconUserimg = Image.open("C:\\Users\\ADDICHANE\\OneDrive\\Documents\\Projet_Python\\ProjetPython\\images\\Logo.png")
         bgiconUserimg = bgiconUserimg.resize((500, 540))
         bgiconUserPhoto = ImageTk.PhotoImage(bgiconUserimg)
 
@@ -36,7 +36,7 @@ class Login:
         lbltitre = Label(self.root, bd=4, relief=GROOVE, text="Authentification", font=("Times New Roman", 25), bg='#F7941D', fg='#FFFAFA')
         lbltitre.place(width=995, height=70)
 
-        image_path = 'images/username.jpg'
+        image_path = "C:\\Users\\ADDICHANE\\OneDrive\\Documents\\Projet_Python\\ProjetPython\\images\\username.jpg"
         bgiconnameimg = Image.open(image_path)
         bgiconnameimg = bgiconnameimg.resize((30, 30))
         bgiconnamePhoto = ImageTk.PhotoImage(bgiconnameimg)
@@ -46,7 +46,7 @@ class Login:
         txtnomUtilisateur = Entry(self.root, bd=3, relief=GROOVE, font=('Consolas', 15))
         txtnomUtilisateur.place(x=660, y=230, width=200, height=30)
 
-        image_path = 'images/password.jpg'
+        image_path = 'C:\\Users\\ADDICHANE\\OneDrive\\Documents\\Projet_Python\\ProjetPython\\images\\password.jpg'
         bgiconPasswordimg = Image.open(image_path)
         bgiconPasswordimg = bgiconPasswordimg.resize((30, 30))
         bgiconPasswordPhoto = ImageTk.PhotoImage(bgiconPasswordimg)
@@ -73,8 +73,8 @@ class Login:
         txtmdp.place(x=660, y=330, width=200, height=30)
 
         # Utilisation du module os pour obtenir les chemins absolus des images
-        eye_closed_path = 'images/eye_closed.png'
-        eye_open_path = 'images/eye_open.png'
+        eye_closed_path = 'C:\\Users\\ADDICHANE\\OneDrive\\Documents\\Projet_Python\\ProjetPython\\images\\eye_closed.png'
+        eye_open_path = 'C:\\Users\\ADDICHANE\\OneDrive\\Documents\\Projet_Python\\ProjetPython\\images\\eye_open.png'
 
         eye_closed_img = Image.open(eye_closed_path)
         eye_closed = ImageTk.PhotoImage(eye_closed_img.resize((30, 30)))
@@ -193,7 +193,7 @@ class Login:
                 fnt.destroy()
                 Login()
                     
-            image_path = 'images/retour.jpeg'
+            image_path = 'C:\\Users\\ADDICHANE\\OneDrive\\Documents\\Projet_Python\\ProjetPython\\images\\retour.jpeg'
             iconRetour = Image.open(image_path)
             iconRetour = iconRetour.resize((60, 40))
             iconPhoto = ImageTk.PhotoImage(iconRetour)
