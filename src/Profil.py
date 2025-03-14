@@ -1,14 +1,19 @@
 from tkinter import messagebox
 from tkinter import *
 from db_connection import get_connection
+from pygame import mixer
 
 class Profil:
     def __init__(self, frm,frm1):
         self.frm = frm
-        self.frm.config(bg="white")
+        self.frm.config(bg="#e0e0e0")
         self.frm1=frm1
+        
+        mixer.init()
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        
         titre=Label(self.frm1,text="Profil Societe",bg="gray",fg='white',font=("Consolas", 20))
-        titre.place(x=400,y=30)
+        titre.place(x=400,y=30,width=300)
         
         connection = get_connection()
         cursor = connection.cursor()
@@ -27,22 +32,24 @@ class Profil:
             self.afficher_profil()
 
     def afficher_profil(self):
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        mixer.music.play()
         """Affiche les informations actuelles de la société."""
         # Nettoyage de la frame
         for widget in self.frm.winfo_children():
             widget.destroy()
 
         # Titre
-        lbl_titre = Label(self.frm, text="Profil de la Société", font=("Arial", 20, "bold"), bg="white", fg="black")
+        lbl_titre = Label(self.frm, text="Profil de la Société", font=("Arial", 20, "bold"), bg="#e0e0e0", fg="black")
         lbl_titre.place(x=400, y=50)
 
         # Informations
         y_offset = 130
         for key, value in self.informations.items():
-            lbl_key = Label(self.frm, text=f"{key} :", font=("Arial", 14), bg="white", fg="black", anchor="w")
+            lbl_key = Label(self.frm, text=f"{key} :", font=("Arial", 14), bg="#e0e0e0", fg="black", anchor="w")
             lbl_key.place(x=200, y=y_offset)
 
-            lbl_value = Label(self.frm, text=value, font=("Arial", 14, "bold"), bg="white", fg="#0071BC", anchor="w")
+            lbl_value = Label(self.frm, text=value, font=("Arial", 14, "bold"), bg="#e0e0e0", fg="#0071BC", anchor="w")
             lbl_value.place(x=600, y=y_offset)
 
             y_offset += 40
@@ -55,12 +62,14 @@ class Profil:
 
     def modifier_profil(self):
         """Affiche un formulaire pour modifier les informations de la société."""
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        mixer.music.play()
         # Nettoyage de la frame
         for widget in self.frm.winfo_children():
             widget.destroy()
 
         # Titre
-        lbl_titre = Label(self.frm, text="Modifier le Profil de la Société", font=("Arial", 20, "bold"), bg="white", fg="black")
+        lbl_titre = Label(self.frm, text="Modifier le Profil de la Société", font=("Arial", 20, "bold"), bg="#e0e0e0", fg="black")
         lbl_titre.place(x=340, y=50)
 
         # Formulaire de modification
@@ -69,7 +78,7 @@ class Profil:
         
         for key, value in self.informations.items():
             # Label pour le nom de l'information (ex. Nom de la société)
-            lbl_key = Label(self.frm, text=f"{key} :", font=("Arial", 14), bg="white", fg="black", anchor="w")
+            lbl_key = Label(self.frm, text=f"{key} :", font=("Arial", 14), bg="#e0e0e0", fg="black", anchor="w")
             lbl_key.place(x=200, y=y_offset)
 
             # Champ de saisie pour la valeur (modification)
@@ -97,16 +106,51 @@ class Profil:
 
 
     def sauvegarder_informations(self):
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        mixer.music.play()
         """Enregistre les nouvelles informations de la société."""
         try:
-            for key, entry in self.entries.items():
-                self.informations[key] = entry.get()
+            # Connexion à la base de données
+            connection = get_connection()  # Vous devez définir cette fonction pour récupérer la connexion à votre base de données
+            cursor = connection.cursor()
+
+            # Préparer la requête SQL pour mettre à jour les informations de la société
+            query = """
+                UPDATE admines 
+                SET societe = %s, id_fiscal = %s, register_commerce = %s, email = %s 
+            """
+            
+            # Récupérer les nouvelles informations depuis les champs
+            new_societe = self.entries["Nom de la société"].get()
+            new_id_fiscal = self.entries["N° Fiscal"].get()
+            new_register_commerce = self.entries["Registre de commerce"].get()
+            new_email = self.entries["Email"].get()
+
+            # Exécuter la requête SQL avec les nouvelles valeurs
+            cursor.execute(query, (new_societe, new_id_fiscal, new_register_commerce, new_email))
+
+            # Commit des changements
+            connection.commit()
+
+            # Mise à jour des informations locales dans l'objet
+            self.informations["Nom de la société"] = new_societe
+            self.informations["N° Fiscal"] = new_id_fiscal
+            self.informations["Registre de commerce"] = new_register_commerce
+            self.informations["Email"] = new_email
 
             # Message de confirmation
             messagebox.showinfo("Succès", "Les informations ont été mises à jour avec succès.")
+            
+            # Revenir à l'affichage du profil
             self.afficher_profil()
+            
+            # Fermer la connexion
+            cursor.close()
+            connection.close()
+
         except Exception as e:
             messagebox.showerror("Erreur", f"Une erreur s'est produite : {str(e)}")
+
             
     def on_enterGreen(self,event):
         event.widget.config(background="#3CB371", fg="black") 

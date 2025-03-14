@@ -2,6 +2,7 @@ import mysql.connector
 from tkinter import *
 from tkinter import messagebox, ttk
 from db_connection import get_connection
+from pygame import mixer
 
 # Connexion à la base de données MySQL 
 
@@ -14,8 +15,13 @@ class ListeEmployeur:
         self.frm.configure(bg="#e0e0e0")
         
         self.frm1=frm1
-        titre=Label(self.frm1,text="Lister Employes",bg="gray",fg='white',font=("Consolas", 20))
-        titre.place(x=400,y=30)
+        
+        mixer.init()
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        
+        
+        titre=Label(self.frm1,text="Liste des Employés",bg="gray",fg='white',font=("Consolas", 20))
+        titre.place(x=400,y=30,width=300)
         
         lblRech = Label(self.frm, text="Effectuer une Recherche : ", font=("Arial", 15), fg='black', bg="#e0e0e0")
         lblRech.place(x=60, y=30)
@@ -42,15 +48,15 @@ class ListeEmployeur:
         
         
         
-        btn_afficher = Button(self.frm, text="Afficher les Employeurs",font=("Arial", 15),bd=4,relief="groove", background="green", fg="white", command=self.afficher_employeurs)
+        btn_afficher = Button(self.frm, text="Afficher les Employés",font=("Arial", 15),bd=4,relief="groove", background="green", fg="white", command=self.afficher_employeurs)
         btn_afficher.place(x=90,y=120)
         self.hoverGreen(btn_afficher)
         
-        btn_supprimer = Button(frm, text="Supprimer l'Employeur",font=("Arial", 15),bd=4,relief="groove", background="red", fg="white", command=self.supprimer_employe)
+        btn_supprimer = Button(frm, text="Supprimer l'Employé",font=("Arial", 15),bd=4,relief="groove", background="red", fg="white", command=self.supprimer_employe)
         btn_supprimer.place(x=430,y=120)
         self.hoverRed(btn_supprimer)
         
-        btn_modifier = Button(frm, text="Modifier l'Employeur",font=("Arial", 15),bd=4,relief="groove", background="#0A82A0", fg="white", command=self.modifier_employe)
+        btn_modifier = Button(frm, text="Modifier l'Employés",font=("Arial", 15),bd=4,relief="groove", background="#0A82A0", fg="white", command=self.modifier_employe)
         btn_modifier.place(x=750,y=120)
         self.hoverBlue(btn_modifier)
         
@@ -116,6 +122,10 @@ class ListeEmployeur:
         btn.bind("<Leave>", self.on_leaveRed)
 
     def afficher_employeurs(self):
+        
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        mixer.music.play()
+        
         connection = get_connection()
         if connection:
             cursor = connection.cursor()
@@ -139,6 +149,10 @@ class ListeEmployeur:
                 connection.close()
 
     def supprimer_employe(self):
+        
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        mixer.music.play()
+        
         selected_item = self.tree.selection()
         if selected_item:
             employe_id = self.tree.item(selected_item, "values")[0]  # Récupérer l'ID de l'employé
@@ -162,6 +176,10 @@ class ListeEmployeur:
             messagebox.showwarning("Aucune sélection", "Veuillez sélectionner un employé à supprimer.")
 
     def modifier_employe(self):
+        
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        mixer.music.play()
+        
         selected_item = self.tree.selection()
         if selected_item:
             employe_id = self.tree.item(selected_item, "values")[0]  # Récupérer l'ID de l'employé
@@ -208,10 +226,23 @@ class ListeEmployeur:
                         entry_date_embauche = Entry(modification_window,font=("Arial", 13))
                         entry_date_embauche.place(x=600, y=230,height=33, width=220)
 
-                        label_post = Label(modification_window,font=("Arial", 15), text="Poste:",bg='lightgray')
+                        # Récupération des postes disponibles depuis la base de données
+                        try:
+                            cursor.execute("SELECT DISTINCT post FROM Employes")
+                            postes_disponibles = [row[0] for row in cursor.fetchall()]
+                        except mysql.connector.Error as err:
+                            messagebox.showerror("Erreur", f"Erreur lors de la récupération des postes: {err}")
+                            postes_disponibles = []
+
+                        # Variable pour stocker le poste sélectionné
+                        label_post = Label(modification_window, font=("Arial", 15), text="Poste:", bg='lightgray')
                         label_post.place(x=220, y=280)
-                        entry_post = Entry(modification_window,font=("Arial", 13))
-                        entry_post.place(x=600, y=280,height=33, width=220)
+
+                        # Création de la Combobox
+                        combobox_post = ttk.Combobox(modification_window, font=("Arial", 13), state="readonly", values=postes_disponibles)
+                        combobox_post.place(x=600, y=280, height=33, width=220)
+                        
+                        combobox_post.set(post)
 
                         label_genre = Label(modification_window,font=("Arial", 15), text="Genre:",bg='lightgray')
                         label_genre.place(x=220, y=330)
@@ -224,7 +255,6 @@ class ListeEmployeur:
                         entry_date_naissance.insert(0, date_naissance)
                         entry_cin.insert(0, cin)
                         entry_date_embauche.insert(0, date_embauche)
-                        entry_post.insert(0, post)
                         entry_genre.insert(0, genre)
 
                         # Fonction pour sauvegarder les modifications
@@ -235,7 +265,7 @@ class ListeEmployeur:
                             updated_date_naissance = entry_date_naissance.get()
                             updated_cin = entry_cin.get()
                             updated_date_embauche = entry_date_embauche.get()
-                            updated_post = entry_post.get()
+                            updated_post = combobox_post.get()  # Obtenir la sélection de la Combobox
                             updated_genre = entry_genre.get()
 
                             # Rouvrir la connexion et recréer le curseur à chaque modification
@@ -272,7 +302,8 @@ class ListeEmployeur:
             messagebox.showwarning("Aucune sélection", "Veuillez sélectionner un employé à modifier.")
             
     def effectuerRecherche(self, critere, valeur):
-        
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        mixer.music.play()
         """ Effectue une recherche selon le critère sélectionné et la valeur saisie. """
         connection = get_connection()
         if not valeur.strip():  # Si le champ de recherche est vide

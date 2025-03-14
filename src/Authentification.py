@@ -9,11 +9,14 @@ from email.mime.multipart import MIMEMultipart
 from random import randint
 from main import main
 from db_connection import get_connection
+from pygame import mixer
 
 # Fonction principale de Login
 class Login:
     
     def __init__(self):
+        
+        self.varia=0
         
         self.root = Tk()
         self.root.title("S'Authentification")
@@ -22,8 +25,12 @@ class Login:
         self.root.iconbitmap(icon_path)
         self.root.resizable(False, False)
         self.root.configure(background="#0071BC", bd=3, relief=GROOVE)
+        
+        mixer.init()
+        # l'ajoute de ces deux ligne pour eviter le retard de clique au niveau des boutton
+        mixer.music.load(".\\Sound\\click.ogg")  
 
-        bgiconUserimg = Image.open("images/Logo.png")
+        bgiconUserimg = Image.open(".\\images\\Logo.png")
         bgiconUserimg = bgiconUserimg.resize((500, 540))
         bgiconUserPhoto = ImageTk.PhotoImage(bgiconUserimg)
 
@@ -36,7 +43,7 @@ class Login:
         lbltitre = Label(self.root, bd=4, relief=GROOVE, text="Authentification", font=("Times New Roman", 25), bg='#F7941D', fg='#FFFAFA')
         lbltitre.place(width=995, height=70)
 
-        image_path = 'images/username.jpg'
+        image_path = ".\\images\\username.jpg"
         bgiconnameimg = Image.open(image_path)
         bgiconnameimg = bgiconnameimg.resize((30, 30))
         bgiconnamePhoto = ImageTk.PhotoImage(bgiconnameimg)
@@ -46,7 +53,7 @@ class Login:
         txtnomUtilisateur = Entry(self.root, bd=3, relief=GROOVE, font=('Consolas', 16))
         txtnomUtilisateur.place(x=660, y=230, width=200, height=30)
 
-        image_path = 'images/password.jpg'
+        image_path = '.\\images\\password.jpg'
         bgiconPasswordimg = Image.open(image_path)
         bgiconPasswordimg = bgiconPasswordimg.resize((30, 30))
         bgiconPasswordPhoto = ImageTk.PhotoImage(bgiconPasswordimg)
@@ -58,6 +65,8 @@ class Login:
 
         # Fonction pour basculer l'affichage du mot de passe
         def toggle_password():
+            mixer.music.load(".\\Sound\\click.ogg")  
+            mixer.music.play()
             if show_password[0]:  # Accéder à l'état depuis la liste
                 txtmdp.config(show='')  # Affiche le texte du mot de passe
                 show_password[0] = False
@@ -73,8 +82,8 @@ class Login:
         txtmdp.place(x=660, y=330, width=200, height=30)
 
         # Utilisation du module os pour obtenir les chemins absolus des images
-        eye_closed_path = 'images/eye_closed.png'
-        eye_open_path = 'images/eye_open.png'
+        eye_closed_path = '.\\images\\eye_closed.png'
+        eye_open_path = '.\\images\\eye_open.png'
 
         eye_closed_img = Image.open(eye_closed_path)
         eye_closed = ImageTk.PhotoImage(eye_closed_img.resize((30, 30)))
@@ -99,6 +108,10 @@ class Login:
             event.widget.config(bg='green', fg='white')  # Réinitialise la couleur quand la souris sort
         
         def Seconnecter():
+            
+            mixer.music.load(".\\Sound\\click.ogg")  
+            mixer.music.play()
+            
             surnom = txtnomUtilisateur.get()
             mdp = txtmdp.get()
 
@@ -142,6 +155,7 @@ class Login:
 
         # Fonction de mot de passe oublié
         def forgot_password():
+            
             self.root.destroy()
             fnt = Tk()
             fnt.title("Mot de Pass Obliér ")
@@ -170,6 +184,8 @@ class Login:
             
 
             def ChoiCode():
+                mixer.music.load(".\\Sound\\click.ogg")  
+                mixer.music.play()
                 user_email = email_entry.get()
                 
                 # Vérification de l'email dans la base de données
@@ -178,7 +194,10 @@ class Login:
                         reset_code = randint(100000, 999999)
                         send_recovery_email(user_email, reset_code)
                         fnt.destroy()
-                        verification_window(user_email, reset_code)
+                        if self.varia == 0:
+                           verification_window(user_email, reset_code)
+                        elif self.varia == 1 :
+                            Login()
                         
                     else:
                         messagebox.showerror("Erreur", "Cet email n'est pas enregistré dans notre système.")
@@ -192,10 +211,12 @@ class Login:
             hover(login_button)
             
             def retour():
+                mixer.music.load(".\\Sound\\click.ogg")  
+                mixer.music.play()
                 fnt.destroy()
                 Login()
                     
-            image_path = 'images/retour.jpeg'
+            image_path = '.\\images\\retour.jpeg'
             iconRetour = Image.open(image_path)
             iconRetour = iconRetour.resize((60, 40))
             iconPhoto = ImageTk.PhotoImage(iconRetour)
@@ -208,7 +229,7 @@ class Login:
         def send_recovery_email(to_email, reset_code):
             try:
                 from_email = "anwar1bahida1@gmail.com"
-                from_password = "mojxrmvqakiehzdo"
+                from_password = "qohlwbpqwmticgok"
                 subject = "Récupération de mot de passe"
 
                 message = MIMEMultipart()
@@ -229,11 +250,10 @@ class Login:
                 messagebox.showinfo("Succès", "Email de récupération envoyé avec succès !")
 
             except Exception as e:
-                messagebox.showerror("Erreur", f"Une erreur lors de l'envoi de l'email : Veuillez vérifier votre connexion réseau")
-                quit()
+                ok = messagebox.showerror("Erreur", f"Veuillez vérifier votre Connexion Internet")
+                if ok : self.varia=1
         # Fonction de vérification du code de réinitialisation
         def verification_window(user_email,reset_code):
-            
             fnt1 = Tk()
             fnt1.title("Recevoir Code")
             fnt1.geometry("500x540+510+140")
@@ -252,6 +272,9 @@ class Login:
             code_entry.place(x=100, y=230, width=300, height=30)
 
             def verification():
+                mixer.music.load(".\\Sound\\click.ogg")  
+                mixer.music.play()
+                
                 code_input = code_entry.get()
 
                 # Vérifier si l'entrée est un entier positif pur
@@ -300,6 +323,9 @@ class Login:
 
             # Fonction pour mettre à jour le mot de passe dans la base de données
             def update_password():
+                mixer.music.load(".\\Sound\\click.ogg")  
+                mixer.music.play()
+                
                 new_password = new_password_entry.get()
                 confirm_password = confirm_password_entry.get()
 
@@ -335,11 +361,11 @@ class Login:
                             mabase.close()
 
             # Bouton pour soumettre le nouveau mot de passe
-            submit_button = Button(fnt2, text="Réinitialiser Password",bd=3, relief=GROOVE, font=("Times New Roman", 15), background="green", fg="white", command=update_password)
+            submit_button = Button(fnt2, text="Réinitialiser Password",bd=3, relief=GROOVE, font=("Times New Roman", 18), background="green", fg="white", command=update_password)
             submit_button.place(x=100, y=380, width=300, height=30)
 
         # Boutons de connexion et création de compte
-        btnSeConnecter = Button(self.root, bd=3, relief=GROOVE, text="Se connecter", font=("Times New Roman", 15), background="green", fg="white", command=Seconnecter)
+        btnSeConnecter = Button(self.root, bd=3, relief=GROOVE, text="Se Connecter", font=("Times New Roman", 18), background="green", fg="white", command=Seconnecter)
         btnSeConnecter.place(x=645, y=390, width=200)
         
         hover(btnSeConnecter)

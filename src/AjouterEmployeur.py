@@ -7,15 +7,21 @@ from tkcalendar import DateEntry
 from tkinter.ttk import Combobox
 from PIL import Image, ImageTk
 from db_connection import get_connection  # Pour afficher des images dans tkinter
+from CalculEmbeding import *
 
+from pygame import mixer
 
 class AjouterEmployer:
     def __init__(self, frm,frm1):
         self.frm = frm
         self.frm1=frm1
         titre=Label(self.frm1,text="Ajouter Employes",bg="gray",fg='white',font=("Consolas", 20))
-        titre.place(x=400,y=30)
+        titre.place(x=400,y=30,width=300)
         self.frm.config(bg="#f5f5f5")  # Changer le fond du formulaire pour un léger gris
+        
+        mixer.init()
+        # l'ajoute de ces deux ligne pour eviter le retard de clique au niveau des boutton
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
 
         # Cadre pour les informations personnelles
         self.frame_personal_info = Frame(self.frm, bg="#e0e0e0", bd=2, relief=SOLID)
@@ -82,7 +88,7 @@ class AjouterEmployer:
         self.canvas.place(x=700, y=100)
 
         # Bouton Ajouter
-        yes_no = Button(self.frm, text="Ajouter",bd=4,relief="groove", command=self.stoker_en_bd, font=("Arial", 16), bg="green", fg="white")
+        yes_no = Button(self.frm, text="Ajouter",bd=4,relief="groove", command=lambda: (self.stoker_en_bd(), process_employees()), font=("Arial", 16), bg="green", fg="white")
         yes_no.place(x=465, y=475,width=150)
         
         self.hover(yes_no)
@@ -122,6 +128,10 @@ class AjouterEmployer:
             return None
 
     def stoker_en_bd(self):
+        
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        mixer.music.play()
+        
         connection = get_connection()  # Assurez-vous que cette fonction est définie
         if connection:
             try:
@@ -144,6 +154,7 @@ class AjouterEmployer:
                 cursor.execute(insert_query, values)
                 connection.commit()
                 messagebox.showinfo("Succès", "Employé ajouté avec succès!")
+                
 
                 # Réinitialiser les champs après ajout
                 self.nom.delete(0, tkinter.END)
@@ -163,8 +174,7 @@ class AjouterEmployer:
                 if connection:
                     connection.close()
 
-
-
+    
 def image_to_blob(file_path):
     with open(file_path, 'rb') as file:
         return file.read()

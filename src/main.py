@@ -8,18 +8,24 @@ from ListeAbscence import ListeAbscence
 from ListePresence import ListePresence
 from Profil import Profil
 from ActiverCamera import *
+from Rapport import Rapport
+from pygame import mixer
 
 class main:
     
     #fonction d'interface graphique
     def __init__(self):
+        
+        
+        mixer.init()
+        mixer.music.load("C:\\Users\\HP\\ProjetPython\\Sound\\click.ogg")  
+        
         self.interface()
         
     def destroy_frame(self):
         
-        for widget in self.frm3.winfo_children():
+        for widget in self.frm3.winfo_children() :
             widget.destroy()
-            
         
     def on_enter(self,event):
         event.widget.config(background="#3CB371", fg="black") 
@@ -47,7 +53,7 @@ class main:
         self.root.configure(background="#0071BC", bd=3, relief=GROOVE)
         
 
-        lbltitre = Label(self.root, text="Pointage des employés", bd=3, relief=GROOVE, 
+        lbltitre = Label(self.root, text="Pointage des Employés", bd=3, relief=GROOVE, 
                         font=("Consolas", 25), bg='#F7941D', fg='#FFFAFA')
         lbltitre.place(width=1345, height=70)
 
@@ -133,5 +139,6 @@ class main:
         ActiverCamera(self.frm3,self.frm2)
         
     def RapportStatisique(self):
-        pass
+        self.destroy_frame()
+        Rapport (self.frm3,self.frm2)
     
